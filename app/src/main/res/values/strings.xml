@@ -4,9 +4,10 @@
     <string name="vote_average">Vote Average</string>
     <string name="of">of</string>
     <string name="page_no">1</string>
-    <string name="placeHolder_text_title">Android Lollipop</string>
-    <string name="placeHolder_text_year">2015</string>
+    <string name="placeHolder_text_title">Film Android IAK</string>
+    <string name="placeHolder_text_year">2018</string>
     <string name="rating">Rating</string>
     <string name="placeHolder_text_vote">(300)</string>
     <string name="placeHolder_text_rating">4.0</string>
+    <string name="api_key_tmdb">8960a5c80c53d999db8b57d83896a9fc</string>
 </resources>

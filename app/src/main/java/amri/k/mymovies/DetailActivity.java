@@ -5,14 +5,18 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import amri.k.mymovies.utilities.NetworkUtils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -24,16 +28,28 @@ public class DetailActivity extends AppCompatActivity {
     String MOVIE_VOTE_COUNT = "vote_count";
     String MOVIE_BACK_DROP = "backdrop_path";
 
-    private TextView titleTextView, releaseDateTextView,ratingTextView,voteCountTextView,overviewTextView,voteAverageTextView;
-    private ImageView posterImageView, backDropImageView;
-    private RatingBar ratingBar;
-    private CollapsingToolbarLayout collapsingToolbar;
+    //ID yang akan di binding ke MainActivity menggunakan butterknife
+    @BindView(R.id.title_details) TextView titleTextView;
+    @BindView(R.id.year_details) TextView releaseDateTextView;
+    @BindView(R.id.rating_score_detail) TextView ratingTextView;
+    @BindView(R.id.num_of_votes_detail) TextView voteCountTextView;
+    @BindView(R.id.plot_synopsis) TextView overviewTextView;
+    @BindView(R.id.average_vote) TextView voteAverageTextView;
+    @BindView(R.id.iv_movie_poster_details) ImageView posterImageView;
+    @BindView(R.id.iv_backdrop) ImageView backDropImageView;
+    @BindView(R.id.rating_bar_detail) RatingBar ratingBar;
+    @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
+
+        // memanggil inisiasi butterknife
+        ButterKnife.bind(this);
+
+        final Toolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
@@ -42,17 +58,6 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Intent intent = this.getIntent();
-
-        titleTextView = (TextView) findViewById(R.id.title_details);
-        releaseDateTextView = (TextView) findViewById(R.id.year_details);
-        ratingTextView = (TextView) findViewById(R.id.rating_score_detail);
-        voteAverageTextView = (TextView) findViewById(R.id.average_vote);
-        overviewTextView = (TextView) findViewById(R.id.plot_synopsis);
-        voteCountTextView = (TextView) findViewById(R.id.num_of_votes_detail);
-        ratingBar = (RatingBar) findViewById(R.id.rating_bar_detail);
-        posterImageView = (ImageView) findViewById(R.id.iv_movie_poster_details);
-        backDropImageView = (ImageView) findViewById(R.id.iv_backdrop);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
 
         if (intent != null && intent.hasExtra(MOVIE_TITLE)){
             actionBar.setTitle(intent.getStringExtra(MOVIE_TITLE) + " (" +
@@ -70,12 +75,12 @@ public class DetailActivity extends AppCompatActivity {
             overviewTextView.setText(intent.getStringExtra(MOVIE_OVERVIEW));
             voteAverageTextView.setText(intent.getStringExtra(MOVIE_VOTE_AVERAGE) + "/10");
             String url1 = NetworkUtils.buildMovieUrl(intent.getStringExtra(MOVIE_POSTER)).toString();
-            Picasso.with(this)
+            Glide.with(this)
                     .load(url1)
                     .into(posterImageView);
 
             String url2 = NetworkUtils.buildMovieUrl(intent.getStringExtra(MOVIE_BACK_DROP)).toString();
-            Picasso.with(this)
+            Glide.with(this)
                     .load(url2)
                     .into(backDropImageView);
 
@@ -87,14 +92,7 @@ public class DetailActivity extends AppCompatActivity {
             ratingTextView.setText(rating);
             ratingBar.setRating((float)voteAverage);
             ratingBar.setStepSize((float)0.1);
-
-
-
         }
-
-
-
-
 
     }
 }

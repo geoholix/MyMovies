@@ -10,7 +10,7 @@ import java.util.List;
 
 import amri.k.mymovies.Models.MovieList;
 import amri.k.mymovies.Models.MovieResponse;
-import amri.k.mymovies.MovieListAdapter;
+import amri.k.mymovies.adapter.MovieListAdapter;
 
 /**
  * Created by amri on 2/3/2018.
@@ -18,7 +18,7 @@ import amri.k.mymovies.MovieListAdapter;
 
 public class MovieJsonUtils {
 
-    private static MovieResponse moviesResponse = new MovieResponse();
+    private static MovieResponse movieResponse = new MovieResponse();
     private static List<MovieList> movie_list;
     private static MovieListAdapter movieListAdapter;
 
@@ -26,13 +26,13 @@ public class MovieJsonUtils {
             throws JSONException {
         JSONObject movieJson = new JSONObject(movieJsonStr);
 
-        moviesResponse.setPage(movieJson.getDouble("page"));
+        movieResponse.setPage(movieJson.getDouble("page"));
 
         JSONArray results = movieJson.getJSONArray("results");
 
-        moviesResponse.setTotalPages(movieJson.getDouble("total_pages"));
+        movieResponse.setTotalPages(movieJson.getDouble("total_pages"));
 
-        moviesResponse.setTotalResults(movieJson.getDouble("total_results"));
+        movieResponse.setTotalResults(movieJson.getDouble("total_results"));
 
         for (int i=0; i<results.length(); i++){
             JSONObject obj = results.getJSONObject(i);

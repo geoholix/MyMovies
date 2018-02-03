@@ -1,4 +1,4 @@
-package amri.k.mymovies;
+package amri.k.mymovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import amri.k.mymovies.DetailActivity;
 import amri.k.mymovies.Models.MovieList;
+import amri.k.mymovies.R;
 import amri.k.mymovies.utilities.NetworkUtils;
 
 /**
@@ -52,12 +54,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             super(view);
             view.setClickable(true);
             view.setOnClickListener(this);
-            titleTextView = (TextView) view.findViewById(R.id.tv_movie_title);
-            ratingTextView = (TextView) view.findViewById(R.id.rating_score);
-            voterTextView = (TextView) view.findViewById(R.id.num_of_votes);
-            releaseTextView = (TextView) view.findViewById(R.id.year);
-            ratingBar = (RatingBar) view.findViewById(R.id.rating_bar);
-            posterImageView = (ImageView) view.findViewById(R.id.iv_poster);
+
+            titleTextView = view.findViewById(R.id.tv_movie_title);
+            ratingTextView = view.findViewById(R.id.rating_score);
+            voterTextView = view.findViewById(R.id.num_of_votes);
+            releaseTextView = view.findViewById(R.id.year);
+            ratingBar = view.findViewById(R.id.rating_bar);
+            posterImageView = view.findViewById(R.id.iv_poster);
             ratingBar.setStepSize((float)0.1);
             context = view.getContext();
         }
@@ -96,7 +99,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         holder.releaseTextView.setText(movie_list.get(position).releaseDate.substring(0,4));
 
         String url = NetworkUtils.buildMovieUrl(movie_list.get(position).posterPath).toString();
-        Picasso.with(context).load(url)
+        Glide.with(context).load(url)
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.posterImageView);
     }

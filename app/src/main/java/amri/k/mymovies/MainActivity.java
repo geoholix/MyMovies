@@ -31,63 +31,68 @@ import java.util.ArrayList;
 
 import amri.k.mymovies.Models.MovieList;
 import amri.k.mymovies.Models.MovieResponse;
+import amri.k.mymovies.adapter.MovieListAdapter;
 import amri.k.mymovies.utilities.NetworkUtils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
-    private TextView mMovieCountTextView, mPageTextView, mCurrentPageTextView, ofTextView;
+
+    //ID yang akan di binding ke MainActivity menggunakan butterknife
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.total_movies) TextView mMovieCountTextView;
+    @BindView(R.id.tv_total_pages) TextView mPageTextView;
+    @BindView(R.id.tv_page_no) TextView mCurrentPageTextView;
+    @BindView(R.id.tv_of) TextView ofTextView;
+    @BindView(R.id.rv_movie_posters) RecyclerView mRecyclerView;
+    @BindView(R.id.right_arrow) ImageView rightArrow;
+    @BindView(R.id.left_arrow) ImageView leftArrow;
+
     private ArrayList<MovieList> movie_list;
     private MovieResponse moviesResponse;
-    private ImageView rightArrow, leftArrow;
     int currentPageNo = 1, totalPageNo = 1;
     private CoordinatorLayout coordinatorLayout;
     private String SORT_POPULAR = "movie/popular";
     private String SORT_RATED = "movie/top_rated";
     String sortType = SORT_POPULAR;
     MovieListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // memanggil inisiasi butterknife
+        ButterKnife.bind(this);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("My Movies");
         setSupportActionBar(toolbar);
 
-
-        //Initializing variables for the various views used in the MainActivity
-
         movie_list = new ArrayList<MovieList>();
         moviesResponse = new MovieResponse();
-        mProgressBar = findViewById(R.id.progress_bar);
-        mMovieCountTextView = findViewById(R.id.total_movies);
-        mPageTextView =  findViewById(R.id.tv_total_pages);
         mPageTextView.setVisibility(View.GONE);
-        rightArrow =  findViewById(R.id.right_arrow);
+
         rightArrow.setOnClickListener(this);
-        leftArrow =  findViewById(R.id.left_arrow);
+
         leftArrow.setVisibility(View.GONE);
         leftArrow.setOnClickListener(this);
-        ofTextView =  findViewById(R.id.tv_of);
         ofTextView.setVisibility(View.GONE);
-        mCurrentPageTextView =  findViewById(R.id.tv_page_no);
         coordinatorLayout =  findViewById(R.id.activity_main);
 
         if(currentPageNo == 1){
             leftArrow.setVisibility(View.GONE);
         }
 
-
-        //Setting the RecyclerView to a fixed size
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_movie_posters);
         mRecyclerView.setHasFixedSize(true);
-        //Setting the layout manager for the RecyclerView
+
+        //Setting layout manager untuk recylerView
+
         final int columns = getResources().getInteger(R.integer.grid_columns);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, columns, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        //Setting the adapter for the RecyclerView
+        //Setting adapter untuk recyclerView
         adapter = new MovieListAdapter(movie_list);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             mProgressBar.setVisibility(View.INVISIBLE);
             mRecyclerView.setVisibility(View.INVISIBLE);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, "No Internet Connect, Please" +
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Please check internet connection" +
                     " Turn ON data and click RETRY",Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction("RETRY", new View.OnClickListener() {
                 @Override

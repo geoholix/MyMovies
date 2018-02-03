@@ -17,20 +17,15 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_API_URL =
-            "https://api.themoviedb.org/3/";
+    private static final String BASE_API_URL = "https://api.themoviedb.org/3/";
     private static final String API_PAGE = "&page=";
-    private static final String API_KEY =
-            "?api_key=8960a5c80c53d999db8b57d83896a9fc";
-    private static final String DEFAULT_SORT_TYPE =
-            "movie/popular";
-    private static final String BASE_IMAGE_URL =
-            "http://image.tmdb.org/t/p/";
-    private static final String DEFAULT_IMAGE_SIZE =
-            "w185/";
+    private static final String API_KEY = "?api_key=8960a5c80c53d999db8b57d83896a9fc";
+    private static final String DEFAULT_SORT_TYPE = "movie/popular";
+    private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/";
+    private static final String DEFAULT_IMAGE_SIZE = "w185/";
 
 
-    public static URL buildUrl(){
+    /*public static URL buildUrl(){
         String address = BASE_API_URL + DEFAULT_SORT_TYPE
                 +API_KEY;
         URL url = null;
@@ -44,7 +39,7 @@ public class NetworkUtils {
         Log.v(TAG, "Built URL " + url);
 
         return url;
-    }
+    }*/
 
     public static URL buildUrl(String sort, int page){
         String address = BASE_API_URL + sort + API_KEY + API_PAGE + page;
